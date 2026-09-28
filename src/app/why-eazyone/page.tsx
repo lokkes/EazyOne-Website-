@@ -24,17 +24,17 @@ const audiences = [
   {
     title: "WHOLESALE RETAILERS",
     copy: "Stock your stores with premium wholesale apparel.",
-    imageSrc: "/images/why-eazyone/wholesale-retailers.jpg"
+    imageSrc: "/images/why-eazyone/wholesale-retailers.png"
   },
   {
     title: "FASHION BRANDS & BOUTIQUES",
     copy: "Build collections with flexible manufacturing and private-label options.",
-    imageSrc: "/images/why-eazyone/fashion-brands-and-boutiques.jpg"
+    imageSrc: "/images/why-eazyone/fashion-brands-and-boutiques.png"
   },
   {
     title: "CORPORATE & UNIFORM BUYERS",
     copy: "Bulk apparel programs for organizations and businesses.",
-    imageSrc: "/images/why-eazyone/corporate-and-uniform-buyers.jpg"
+    imageSrc: "/images/why-eazyone/corporate-and-uniform-buyers.png"
   }
 ];
 

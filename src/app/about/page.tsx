@@ -28,14 +28,14 @@ export default function AboutPage() {
           <PremiumImage
             alt="Eazyone apparel manufacturing"
             label="MANUFACTURING IMAGE PLACEHOLDER"
-            src="/images/about/manufacturing.jpg"
+            src="/images/about/manufacturing.png"
           />
         </div>
         <div className="relative min-h-[420px] overflow-hidden bg-[#d8d0c4]">
           <PremiumImage
             alt="Eazyone wholesale apparel collection"
             label="PRODUCT IMAGE PLACEHOLDER"
-            src="/images/about/product-collection.jpg"
+            src="/images/about/product-collection.png"
           />
         </div>
       </section>

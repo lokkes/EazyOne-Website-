@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { resolveProductImage } from "@/backend/catalog/product-images";
 import type { Product } from "@/backend/catalog/products";
 import { PremiumImage } from "@/frontend/components/ImagePlaceholder";
 
@@ -8,7 +7,7 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product }: ProductCardProps) {
-  const image = resolveProductImage(product.images[0]);
+  const image = product.images[0];
 
   return (
     <article className="group">

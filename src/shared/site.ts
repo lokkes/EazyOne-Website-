@@ -1,7 +1,26 @@
 import type { Metadata } from "next";
 
 export const SITE_NAME = "eazyone";
-export const SITE_URL = "https://eazyone.com";
+const DEFAULT_SITE_URL = "https://eazyoneapparel.com";
+
+function resolveSiteUrl(): string {
+  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
+  if (!configuredUrl) {
+    return DEFAULT_SITE_URL;
+  }
+
+  try {
+    const url = new URL(configuredUrl);
+    return url.protocol === "http:" || url.protocol === "https:"
+      ? url.origin
+      : DEFAULT_SITE_URL;
+  } catch {
+    return DEFAULT_SITE_URL;
+  }
+}
+
+export const SITE_URL = resolveSiteUrl();
 export const SITE_DESCRIPTION =
   "Premium wholesale apparel, private label apparel and made-to-order clothing manufacturing for B2B buyers.";
 

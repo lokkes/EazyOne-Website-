@@ -24,7 +24,7 @@ export default function ServicesPage() {
           <PremiumImage
             alt="Apparel samples and customization"
             label="SAMPLES IMAGE PLACEHOLDER"
-            src="/images/services/samples-and-customization.jpg"
+            src="/images/services/samples-and-customization.png"
           />
         </div>
       </section>

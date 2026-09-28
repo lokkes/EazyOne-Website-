@@ -24,17 +24,17 @@ const audiences = [
   [
     "WHOLESALE RETAILERS",
     "Stock your stores with premium wholesale apparel.",
-    "/images/why-eazyone/wholesale-retailers.jpg"
+    "/images/why-eazyone/wholesale-retailers.png"
   ],
   [
     "FASHION BRANDS & BOUTIQUES",
     "Build collections with flexible manufacturing and private-label options.",
-    "/images/why-eazyone/fashion-brands-and-boutiques.jpg"
+    "/images/why-eazyone/fashion-brands-and-boutiques.png"
   ],
   [
     "CORPORATE & UNIFORM BUYERS",
     "Bulk apparel programs for organizations and businesses.",
-    "/images/why-eazyone/corporate-and-uniform-buyers.jpg"
+    "/images/why-eazyone/corporate-and-uniform-buyers.png"
   ]
 ] as const;
 
@@ -63,7 +63,7 @@ export function HomePage({ categories, featuredProducts }: HomePageProps) {
           <PremiumImage
             alt="Made-to-order apparel manufacturing"
             label="MANUFACTURING IMAGE PLACEHOLDER"
-            src="/images/home/manufacturing.jpg"
+            src="/images/home/manufacturing.png"
           />
         </div>
         <div className="flex flex-col justify-center">

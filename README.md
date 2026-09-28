@@ -38,12 +38,15 @@ cp .env.example .env.local
 For local UI development, the order endpoint works without email credentials and logs only a request ID. To test real email delivery, fill in all three variables in `.env.local`:
 
 ```dotenv
-RESEND_API_KEY=re_...
+RESEND_API_KEY=
 ORDER_NOTIFICATION_EMAIL=sales@example.com
 ORDER_FROM_EMAIL=Eazyone <quotes@your-verified-domain.com>
+NEXT_PUBLIC_SITE_URL=https://eazyoneapparel.com
 ```
 
 `ORDER_FROM_EMAIL` must use a sender/domain verified in Resend. Never commit `.env.local` or expose the API key to browser code.
+
+`NEXT_PUBLIC_SITE_URL` is optional because the application defaults to `https://eazyoneapparel.com`. Set it in Vercel if you want the deployment configuration to state the canonical domain explicitly.
 
 Start the development server:
 
@@ -84,6 +87,6 @@ npm run build
 2. Set `RESEND_API_KEY`, `ORDER_NOTIFICATION_EMAIL`, and `ORDER_FROM_EMAIL` in the production environment.
 3. Confirm the `ORDER_FROM_EMAIL` domain is verified by Resend.
 4. Build with `npm run build` and start with `npm run start`, or use the provider's standard Next.js preset.
-5. Point `eazyone.com` at the deployment and verify `/robots.txt`, `/sitemap.xml`, one product page, and one test inquiry.
+5. Point `eazyoneapparel.com` at the deployment and verify `/robots.txt`, `/sitemap.xml`, one product page, and one test inquiry.
 
-The canonical production URL is configured as `https://eazyone.com` in `src/shared/site.ts`.
+The canonical production URL defaults to `https://eazyoneapparel.com` and can be configured through `NEXT_PUBLIC_SITE_URL`.

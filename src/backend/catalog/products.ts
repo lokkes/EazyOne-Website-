@@ -53,14 +53,14 @@ export const categories: Category[] = [
     slug: "nightwear",
     name: "Nightwear",
     summary: "Premium pajama sets, sleepwear & loungewear",
-    imageSrc: "/images/categories/nightwear.jpg",
+    imageSrc: "/images/categories/nightwear.png",
     imageLabel: "IMAGE PLACEHOLDER - NIGHTWEAR"
   },
   {
     slug: "casual-shirts",
     name: "Casual Shirts",
     summary: "Elevated everyday shirting for wholesale programs",
-    imageSrc: "/images/categories/casual-shirts.jpg",
+    imageSrc: "/images/categories/casual-shirts.png",
     imageLabel: "IMAGE PLACEHOLDER - CASUAL SHIRTS"
   },
   {
@@ -81,7 +81,7 @@ export const categories: Category[] = [
     slug: "formal-shirts",
     name: "Formal Shirts",
     summary: "Sharp wholesale shirting for uniform and retail buyers",
-    imageSrc: "/images/categories/formal-shirts.jpg",
+    imageSrc: "/images/categories/formal-shirts.png",
     imageLabel: "IMAGE PLACEHOLDER - FORMAL SHIRTS"
   }
 ];
@@ -121,22 +121,19 @@ const productCatalogue: ProductCatalogueEntry[] = [
     ],
     images: [
       {
-        src: "/images/products/premium-heavyweight-oversized-sweatshirt/main.jpg",
+        src: "/images/products/premium-heavyweight-oversized-sweatshirt/main.png",
         alt: "Premium heavyweight oversized sweatshirt",
         label: "MAIN PRODUCT IMAGE"
       },
       {
-        src: "/images/products/premium-heavyweight-oversized-sweatshirt/secondary.jpg",
         alt: "Premium heavyweight oversized sweatshirt secondary view",
         label: "SECONDARY IMAGE"
       },
       {
-        src: "/images/products/premium-heavyweight-oversized-sweatshirt/detail.jpg",
         alt: "Premium heavyweight oversized sweatshirt detail",
         label: "DETAIL IMAGE"
       },
       {
-        src: "/images/products/premium-heavyweight-oversized-sweatshirt/lifestyle.jpg",
         alt: "Premium heavyweight oversized sweatshirt lifestyle",
         label: "LIFESTYLE IMAGE"
       }
@@ -160,7 +157,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Private label", "Embroidery", "Printing", "Custom packaging"],
     images: [
       {
-        src: "/images/products/essential-oversized-hoodie/main.jpg",
+        src: "/images/products/essential-oversized-hoodie/main.png",
         alt: "Essential oversized hoodie",
         label: "PRODUCT IMAGE"
       }
@@ -184,7 +181,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Custom colors", "Custom sizing", "Private label"],
     images: [
       {
-        src: "/images/products/premium-cotton-jogger/main.jpg",
+        src: "/images/products/premium-cotton-jogger/main.png",
         alt: "Premium cotton jogger",
         label: "PRODUCT IMAGE"
       }
@@ -208,7 +205,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Screen printing", "Embroidery", "Neck labels", "Hang tags"],
     images: [
       {
-        src: "/images/products/heavyweight-streetwear-t-shirt/main.jpg",
+        src: "/images/products/heavyweight-streetwear-t-shirt/main.png",
         alt: "Heavyweight streetwear T-shirt",
         label: "PRODUCT IMAGE"
       }
@@ -231,7 +228,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Custom fabrics", "Custom buttons", "Private label"],
     images: [
       {
-        src: "/images/products/premium-casual-shirt/main.jpg",
+        src: "/images/products/premium-casual-shirt/main.png",
         alt: "Premium casual shirt",
         label: "PRODUCT IMAGE"
       }
@@ -254,7 +251,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Custom sizing", "Care labels", "Corporate branding"],
     images: [
       {
-        src: "/images/products/classic-formal-shirt/main.jpg",
+        src: "/images/products/classic-formal-shirt/main.png",
         alt: "Classic formal shirt",
         label: "PRODUCT IMAGE"
       }
@@ -277,7 +274,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Custom prints", "Private labels", "Custom packaging"],
     images: [
       {
-        src: "/images/products/premium-pajama-set/main.jpg",
+        src: "/images/products/premium-pajama-set/main.png",
         alt: "Premium pajama set",
         label: "PRODUCT IMAGE"
       }
@@ -300,7 +297,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Custom colors", "Embroidery", "Hang tags"],
     images: [
       {
-        src: "/images/products/luxury-lounge-set/main.jpg",
+        src: "/images/products/luxury-lounge-set/main.png",
         alt: "Luxury lounge set",
         label: "PRODUCT IMAGE"
       }
@@ -324,7 +321,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Private label", "Custom wash", "Custom packaging"],
     images: [
       {
-        src: "/images/products/oversized-sweatpants/main.jpg",
+        src: "/images/products/oversized-sweatpants/main.png",
         alt: "Oversized sweatpants",
         label: "PRODUCT IMAGE"
       }
@@ -348,7 +345,7 @@ const productCatalogue: ProductCatalogueEntry[] = [
     customization: ["Embroidery", "Printing", "Private labels"],
     images: [
       {
-        src: "/images/products/premium-crewneck-sweatshirt/main.jpg",
+        src: "/images/products/premium-crewneck-sweatshirt/main.png",
         alt: "Premium crewneck sweatshirt",
         label: "PRODUCT IMAGE"
       }
@@ -367,7 +364,7 @@ function createImageVariants(product: ProductCatalogueEntry) {
     product.colors.map((color) => [
       color,
       gallerySlots.map((slot) => ({
-        src: `/images/products/${product.slug}/${toImageSlug(color)}/${slot}.jpg`,
+        src: `/images/products/${product.slug}/${toImageSlug(color)}/${slot}.png`,
         alt: `${product.name} in ${color}, ${slot} view`,
         label: `${color.toUpperCase()} ${slot.toUpperCase()} IMAGE`
       }))
