@@ -1,8 +1,7 @@
+import { Resend } from "resend";
 import type { OrderRequest } from "./order-schema";
 
-const RESEND_ENDPOINT = "https://api.resend.com/emails";
-
-type EmailDeliveryStatus = "sent" | "skipped";
+type EmailDeliveryStatus = "sent";
 
 type EmailPayload = {
   from: string;
@@ -10,7 +9,7 @@ type EmailPayload = {
   subject: string;
   html: string;
   text: string;
-  reply_to?: string;
+  replyTo?: string;
 };
 
 export class EmailConfigurationError extends Error {
@@ -21,9 +20,9 @@ export class EmailConfigurationError extends Error {
 }
 
 export class EmailDeliveryError extends Error {
-  status: number;
+  status: number | null;
 
-  constructor(status: number) {
+  constructor(status: number | null) {
     super("The email provider rejected the request.");
     this.name = "EmailDeliveryError";
     this.status = status;
@@ -58,7 +57,7 @@ function buildInternalEmail(order: OrderRequest): Pick<EmailPayload, "html" | "t
     ["Products interested in", order.productsInterested],
     ["Estimated quantity", order.estimatedQuantity],
     ["Delivery location", order.deliveryLocation],
-    ["Private label", order.privateLabel],
+    ["Private label", valueOrNotProvided(order.privateLabel)],
     ["Target delivery date", valueOrNotProvided(order.targetDeliveryDate)],
     ["Additional requirements", valueOrNotProvided(order.additionalRequirements)]
   ] as const;
@@ -76,7 +75,7 @@ function buildInternalEmail(order: OrderRequest): Pick<EmailPayload, "html" | "t
   return {
     html: `
       <div style="max-width:720px;margin:0 auto;padding:32px;color:#111;background:#fff;">
-        <p style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#666;">eazyone wholesale inquiry</p>
+        <p style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#666;">Eazyone Apparel wholesale inquiry</p>
         <h1 style="font-family:Arial,sans-serif;font-size:28px;margin:12px 0 24px;">New wholesale quote request</h1>
         <table role="presentation" style="width:100%;border-collapse:collapse;border:1px solid #ddd;">${rows}</table>
       </div>`,
@@ -90,35 +89,29 @@ function buildCustomerEmail(contactName: string): Pick<EmailPayload, "html" | "t
   return {
     html: `
       <div style="max-width:620px;margin:0 auto;padding:32px;color:#111;background:#fff;font-family:Arial,sans-serif;">
-        <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#666;">eazyone</p>
+        <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#666;">Eazyone Apparel</p>
         <h1 style="font-size:28px;margin:12px 0 24px;">Wholesale inquiry received</h1>
         <p style="font-size:16px;line-height:1.7;">Hello ${safeName},</p>
-        <p style="font-size:16px;line-height:1.7;">Thank you for your wholesale inquiry. We have received your request and our team will contact you shortly.</p>
-        <p style="font-size:16px;line-height:1.7;">This message confirms receipt of your inquiry only. It is not an order confirmation.</p>
+        <p style="font-size:16px;line-height:1.7;">Thank you for contacting Eazyone Apparel.</p>
+        <p style="font-size:16px;line-height:1.7;">We have received your wholesale quote request and our team will review the details and contact you with the next steps.</p>
+        <p style="font-size:16px;line-height:1.7;">This message confirms receipt of your inquiry only and does not represent a confirmed order.</p>
+        <p style="font-size:16px;line-height:1.7;">Best regards,<br />Eazyone Apparel</p>
       </div>`,
-    text: `Hello ${contactName},\n\nThank you for your wholesale inquiry. We have received your request and our team will contact you shortly.\n\nThis message confirms receipt of your inquiry only. It is not an order confirmation.`
+    text: `Hello ${contactName},\n\nThank you for contacting Eazyone Apparel.\n\nWe have received your wholesale quote request and our team will review the details and contact you with the next steps.\n\nThis message confirms receipt of your inquiry only and does not represent a confirmed order.\n\nBest regards,\nEazyone Apparel`
   };
 }
 
 async function sendEmail(
-  apiKey: string,
+  resend: Resend,
   payload: EmailPayload,
   idempotencyKey: string
 ) {
-  const response = await fetch(RESEND_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "Idempotency-Key": idempotencyKey
-    },
-    body: JSON.stringify(payload),
-    cache: "no-store",
-    signal: AbortSignal.timeout(10_000)
+  const { error } = await resend.emails.send(payload, {
+    idempotencyKey
   });
 
-  if (!response.ok) {
-    throw new EmailDeliveryError(response.status);
+  if (error) {
+    throw new EmailDeliveryError(error.statusCode);
   }
 }
 
@@ -131,37 +124,31 @@ export async function sendOrderEmails(
   const fromEmail = process.env.ORDER_FROM_EMAIL;
 
   if (!apiKey || !notificationEmail || !fromEmail) {
-    if (process.env.NODE_ENV === "production") {
-      throw new EmailConfigurationError();
-    }
-
-    console.warn(
-      `[order:${requestId}] Email delivery skipped because Resend environment variables are not configured.`
-    );
-    return "skipped";
+    throw new EmailConfigurationError();
   }
 
+  const resend = new Resend(apiKey);
   const internalEmail = buildInternalEmail(order);
   const customerEmail = buildCustomerEmail(order.contactName);
 
   await Promise.all([
     sendEmail(
-      apiKey,
+      resend,
       {
         from: fromEmail,
         to: [notificationEmail],
-        reply_to: order.email,
-        subject: `Wholesale inquiry from ${order.companyName}`,
+        replyTo: order.email,
+        subject: `New Wholesale Quote Request - ${order.companyName}`,
         ...internalEmail
       },
       `${requestId}-internal`
     ),
     sendEmail(
-      apiKey,
+      resend,
       {
         from: fromEmail,
         to: [order.email],
-        subject: "We received your eazyone wholesale inquiry",
+        subject: "We received your Eazyone Apparel wholesale inquiry",
         ...customerEmail
       },
       `${requestId}-customer`

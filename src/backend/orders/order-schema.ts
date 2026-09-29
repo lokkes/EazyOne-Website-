@@ -52,9 +52,10 @@ export const orderRequestSchema = z
       error: "Select a valid estimated quantity."
     }),
     deliveryLocation: singleLineText("Delivery location", 200),
-    privateLabel: z.enum(["Yes", "No"], {
-      error: "Select whether private label is required."
-    }),
+    privateLabel: z
+      .union([z.enum(["Yes", "No"]), z.literal("")])
+      .optional()
+      .default(""),
     targetDeliveryDate: z
       .string()
       .trim()

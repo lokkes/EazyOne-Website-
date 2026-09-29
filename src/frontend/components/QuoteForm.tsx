@@ -40,6 +40,7 @@ export function QuoteForm({ initialProduct = "" }: QuoteFormProps) {
     }
 
     const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
     const payload = Object.fromEntries(formData.entries());
     const nextErrors: FormErrors = {};
 
@@ -51,8 +52,7 @@ export function QuoteForm({ initialProduct = "" }: QuoteFormProps) {
       "businessType",
       "productsInterested",
       "estimatedQuantity",
-      "deliveryLocation",
-      "privateLabel"
+      "deliveryLocation"
     ].forEach((field) => {
       if (!payload[field]) {
         nextErrors[field] = "Required";
@@ -96,6 +96,7 @@ export function QuoteForm({ initialProduct = "" }: QuoteFormProps) {
         );
       }
 
+      form.reset();
       setSubmitted(true);
     } catch (error) {
       setSubmitError(
@@ -162,7 +163,7 @@ export function QuoteForm({ initialProduct = "" }: QuoteFormProps) {
         required
       />
       <Field error={errors.deliveryLocation} label="Preferred Delivery Location" maxLength={200} name="deliveryLocation" required />
-      <Select error={errors.privateLabel} label="Need Private Label?" name="privateLabel" options={["Yes", "No"]} required />
+      <Select error={errors.privateLabel} label="Need Private Label?" name="privateLabel" options={["Yes", "No"]} />
       <Field label="Target Delivery Date" name="targetDeliveryDate" type="date" />
       <label className="grid gap-2">
         <span className="text-xs font-bold tracking-[0.14em]">ADDITIONAL REQUIREMENTS</span>
