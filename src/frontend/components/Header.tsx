@@ -9,8 +9,8 @@ import { useState } from "react";
 const navItems = [
   { href: "/", label: "HOME" },
   { href: "/shop", label: "SHOP WHOLESALE" },
-  { href: "/how-it-works", label: "HOW IT WORKS" },
   { href: "/services", label: "SERVICES" },
+  { href: "/how-it-works", label: "HOW IT WORKS" },
   { href: "/about", label: "ABOUT US" },
   { href: "/why-eazyone", label: "WHY EAZYONE" },
   { href: "/contact", label: "CONTACT" }

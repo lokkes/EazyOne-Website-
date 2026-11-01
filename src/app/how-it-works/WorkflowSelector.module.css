@@ -1,0 +1,19 @@
+.workflowGrid {
+  animation: workflow-fade 260ms ease-out;
+}
+
+@keyframes workflow-fade {
+  from {
+    opacity: 0.68;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workflowGrid {
+    animation: none;
+  }
+}

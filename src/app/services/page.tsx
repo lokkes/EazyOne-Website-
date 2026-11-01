@@ -11,6 +11,33 @@ export const metadata: Metadata = createPageMetadata({
 
 const wholesale = ["Product selection", "Wholesale manufacturing", "Bulk production", "Quality control", "Packaging", "Logistics", "Delivery"];
 const custom = ["Private labels", "Neck labels", "Care labels", "Hang tags", "Custom packaging", "Custom colors", "Custom fabrics", "Custom sizing", "Embroidery", "Printing"];
+const serviceOptions = [
+  {
+    category: "Buying",
+    title: "BUY AS IS",
+    description: "Choose EazyOne branded products as they are.",
+    image: "/images/products/premium-heavyweight-oversized-sweatshirt/main.png",
+    imageAlt: "EazyOne branded heavyweight sweatshirt",
+    imagePosition: "object-center"
+  },
+  {
+    category: "Buying",
+    title: "CUSTOMIZE",
+    description: "Choose our products and customize them with your branding and labeling.",
+    image: "/images/about/product-collection.png",
+    imageAlt: "EazyOne branded apparel collection",
+    imagePosition: "object-[72%_center]"
+  },
+  {
+    category: "Sourcing",
+    title: "SOURCING",
+    description:
+      "Your Vision | Our Expertise — From sourcing fabrics to sample production and manufacturing.",
+    image: "/images/services/samples-and-customization.png",
+    imageAlt: "Apparel fabrics, samples, and production team",
+    imagePosition: "object-center"
+  }
+];
 
 export default function ServicesPage() {
   return (
@@ -26,6 +53,32 @@ export default function ServicesPage() {
             label="SAMPLES IMAGE PLACEHOLDER"
             src="/images/services/samples-and-customization.png"
           />
+        </div>
+      </section>
+
+      <section className="border-t fine-border py-16 md:py-24">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {serviceOptions.map((service) => (
+            <article className="flex h-full flex-col border fine-border" key={service.title}>
+              <div className="relative aspect-[4/3] overflow-hidden bg-[#d8d0c4]">
+                <PremiumImage
+                  alt={service.imageAlt}
+                  className={service.imagePosition}
+                  label={`${service.title} IMAGE`}
+                  src={service.image}
+                />
+              </div>
+              <div className="flex min-h-60 flex-1 flex-col p-6 md:p-8">
+                <p className="eyebrow text-black/45">{service.category}</p>
+                <h2 className="mt-8 text-3xl font-semibold tracking-[-0.04em]">
+                  {service.title}
+                </h2>
+                <p className="mt-5 max-w-md text-lg leading-relaxed text-[#706b63]">
+                  {service.description}
+                </p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 

@@ -18,11 +18,32 @@ export default function ContactPage() {
         </div>
         <div className="grid gap-6">
           {[
-            ["Company Information", "PLACEHOLDER"],
-            ["Email", "PLACEHOLDER"],
-            ["Phone", "PLACEHOLDER"],
-            ["Location", "PLACEHOLDER"]
-          ].map(([label, value]) => (
+            { label: "Company Information", value: "EazyOne" },
+            {
+              label: "Email",
+              value: (
+                <a href="mailto:info@eazyoneapparel.com">
+                  info@eazyoneapparel.com
+                </a>
+              )
+            },
+            {
+              label: "Phone",
+              value: <a href="tel:+17815727424">+1 (781) 572-7424</a>
+            },
+            {
+              label: "Location",
+              value: (
+                <>
+                  84 Pheasant Way
+                  <br />
+                  South Windsor, CT 06074
+                  <br />
+                  USA
+                </>
+              )
+            }
+          ].map(({ label, value }) => (
             <div className="border-b fine-border pb-5" key={label}>
               <p className="text-xs font-bold tracking-[0.14em] text-black/45">{label.toUpperCase()}</p>
               <p className="mt-2 text-2xl tracking-[-0.04em]">{value}</p>

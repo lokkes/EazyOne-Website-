@@ -38,9 +38,28 @@ export function Footer() {
         </nav>
 
         <div className="grid content-start gap-4 text-sm text-white/70">
-          <p>Email: PLACEHOLDER</p>
-          <p>Phone: PLACEHOLDER</p>
-          <p>Address: PLACEHOLDER</p>
+          <p>
+            Email:{" "}
+            <a
+              className="break-words transition hover:text-white"
+              href="mailto:info@eazyoneapparel.com"
+            >
+              info@eazyoneapparel.com
+            </a>
+          </p>
+          <p>
+            Phone:{" "}
+            <a className="transition hover:text-white" href="tel:+17815727424">
+              +1 (781) 572-7424
+            </a>
+          </p>
+          <p>
+            Address: 84 Pheasant Way,
+            <br />
+            South Windsor, CT 06074,
+            <br />
+            USA
+          </p>
           <div className="mt-4 flex gap-5">
             <Link className="underline-offset-4 hover:underline" href="/privacy">
               Privacy Policy

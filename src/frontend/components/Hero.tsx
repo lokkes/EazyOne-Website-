@@ -1,5 +1,13 @@
 import Link from "next/link";
+import { Cormorant_Garamond } from "next/font/google";
 import { HeroSlideshow } from "@/frontend/components/HeroSlideshow";
+
+const cormorantGaramond = Cormorant_Garamond({
+  display: "swap",
+  style: "italic",
+  subsets: ["latin"],
+  weight: "500"
+});
 
 export function Hero() {
   return (
@@ -16,7 +24,9 @@ export function Hero() {
             <span className="lg:block">and Sourcing</span>{" "}
             <span className="lg:block">Company</span>
           </h1>
-          <p className="mt-8 max-w-lg text-lg leading-relaxed text-[#706b63] md:text-xl">
+          <p
+            className={`${cormorantGaramond.className} mt-8 max-w-lg text-2xl leading-[1.3] text-[#706b63] md:text-[1.75rem]`}
+          >
             Your brand deserves products you will be proud to put your label on!
           </p>
         </div>

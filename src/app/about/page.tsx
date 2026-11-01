@@ -18,9 +18,25 @@ export default function AboutPage() {
           <h1 className="section-title">A U.S.-based wholesale apparel company.</h1>
         </div>
         <div className="grid gap-6 text-xl leading-relaxed text-[#706b63]">
-          <p>Eazyone is a U.S.-based wholesale apparel company built to make international manufacturing simple.</p>
-          <p>We work with carefully selected manufacturing partners in India to produce premium-quality apparel at competitive wholesale prices.</p>
-          <p>Our customers do not need to manage factories, production teams, quality inspections or international logistics. We coordinate the process from order to delivery, keeping you informed at every stage gate.</p>
+          <p>
+            We make global manufacturing simple. EazyOne is a US-born sourcing
+            and manufacturing partner for brands, retailers, and boutiques who
+            want global pricing without global risk. You place the order. We
+            carry the rest.
+          </p>
+          <p>
+            Everything we do rests on transparency, trust, and relationships.
+            It&apos;s how we built our network of vetted manufacturers, and why
+            many of those partnerships span years. We believe in long-term
+            strategic partnerships, and those relationships are why quality in
+            every batch isn&apos;t a hope but a habit.
+          </p>
+          <p>
+            Choose from our own line or create your own private label. Every
+            order is made to order, and we keep you updated at each major
+            milestone.
+          </p>
+          <p>Give EazyOne a try. We think you will stay.</p>
         </div>
       </section>
       <section className="mt-16 grid gap-6 md:grid-cols-2">

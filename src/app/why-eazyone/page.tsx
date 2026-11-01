@@ -11,13 +11,24 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 const features = [
-  ["ONE PARTNER", "No need to manage multiple factories and suppliers."],
-  ["MADE TO ORDER", "Products are manufactured based on your confirmed requirements."],
-  ["PREMIUM QUALITY", "We work with selected manufacturing partners and defined product specifications."],
-  ["COMPETITIVE PRICING", "Our manufacturing network allows us to offer attractive wholesale economics."],
-  ["PRODUCTION VISIBILITY", "You receive updates at key stages of your order."],
-  ["QUALITY CONTROL", "Orders are checked before shipment."],
-  ["DELIVERED TO YOU", "We coordinate the logistics from production through delivery."]
+  {
+    title: "Global Pricing, Without the Global Risk",
+    copy:
+      "Access the cost advantages of international manufacturing without the complexity and risks of managing overseas production yourself."
+  },
+  {
+    title: "Premium Quality. Affordable Prices."
+  },
+  {
+    title: "Consistent, On-Time Delivery",
+    copy:
+      "Our long-standing relationships with a vetted network of global manufacturers help us deliver quality products at competitive prices, reliably and consistently."
+  },
+  {
+    title: "More Than a Supplier. Your Strategic Partner.",
+    copy:
+      "We build long-term relationships grounded in trust, transparency, and shared goals, working alongside your business to support its evolving sourcing and manufacturing needs."
+  }
 ];
 
 const audiences = [
@@ -47,11 +58,23 @@ export default function WhyEazyonePage() {
           eyebrow="Why Eazyone"
           title="Why businesses choose Eazyone"
         />
-        <div className="grid border-t fine-border md:grid-cols-2 lg:grid-cols-3">
-          {features.map(([title, copy]) => (
-            <article className="border-b border-r fine-border p-6 md:min-h-[240px]" key={title}>
-              <h2 className="text-3xl font-semibold tracking-[-0.04em]">{title}</h2>
-              <p className="mt-5 leading-relaxed text-[#706b63]">{copy}</p>
+        <div className="grid gap-6 md:grid-cols-2 md:gap-7">
+          {features.map(({ title, copy }, index) => (
+            <article
+              className="flex min-h-[260px] flex-col rounded-[10px] border fine-border bg-[#fbfaf7] p-6 shadow-[0_8px_24px_rgba(16,16,16,0.06)] transition-shadow duration-[250ms] ease-out hover:shadow-[0_16px_36px_rgba(16,16,16,0.11)] motion-safe:transition-[transform,box-shadow] motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.015] md:min-h-[300px] md:p-8 lg:p-10"
+              key={title}
+            >
+              <p className="text-sm text-black/45">{String(index + 1).padStart(2, "0")}</p>
+              <div className="mt-auto pt-12">
+                <h2 className="max-w-xl text-3xl font-semibold tracking-[-0.04em] lg:text-4xl">
+                  {title}
+                </h2>
+                {copy ? (
+                  <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#706b63]">
+                    {copy}
+                  </p>
+                ) : null}
+              </div>
             </article>
           ))}
         </div>

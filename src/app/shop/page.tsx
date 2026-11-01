@@ -26,7 +26,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       <SectionHeader
         copy="A premium wholesale catalogue for B2B apparel buyers. Every product is structured for made-to-order production and future private-label programs."
         eyebrow="Shop Wholesale"
-        title="Wholesale apparel catalogue."
+        title="Shop Our Collection"
       />
 
       <div className="mb-12 flex gap-3 overflow-x-auto pb-2">
