@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { resolveProductImages } from "@/backend/catalog/product-images";
-import { getProductBySlug, products } from "@/backend/catalog/products";
+import {
+  getProductBySlug,
+  legacyProductSlugs,
+  products
+} from "@/backend/catalog/products";
 import { ProductConfigurator } from "@/frontend/components/ProductConfigurator";
 import { SITE_NAME, SITE_URL } from "@/shared/site";
 
@@ -24,11 +28,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     };
   }
 
-  const title =
-    product.seo?.title ?? `${product.name} | Eazyone Wholesale Clothing`;
-  const description =
-    product.seo?.description ??
-    `${product.name} for wholesale apparel buyers. MOQ ${product.moq}. ${product.shortSpec}.`;
+  const defaultVariant = product.variants[0];
+  const title = `${product.name} | Eazyone Wholesale Clothing`;
+  const description = `${product.name} for wholesale apparel buyers. MOQ ${defaultVariant.moq} pieces. ${product.shortSpec}.`;
   const path = `/shop/${product.slug}`;
 
   return {
@@ -62,21 +64,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = getProductBySlug(slug);
 
   if (!product) {
+    if (legacyProductSlugs.has(slug)) {
+      redirect("/shop");
+    }
+
     notFound();
   }
 
   const displayProduct = resolveProductImages(product);
+  const defaultVariant = product.variants[0];
 
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    description: product.description,
+    description: defaultVariant.description,
     category: product.category,
-    material: product.fabric,
-    color: product.colors,
-    size: product.sizes,
-    sku: product.id,
+    ...(defaultVariant.fabric ? { material: defaultVariant.fabric } : {}),
+    color: product.variants.map((variant) => variant.color),
+    size: defaultVariant.sizes,
+    sku: defaultVariant.sku,
     url: `${SITE_URL}/shop/${product.slug}`
   };
 

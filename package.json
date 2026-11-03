@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
+    "catalogue:docs": "node scripts/generate-catalogue-docs.mjs",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",

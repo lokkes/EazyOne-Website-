@@ -1,17 +1,18 @@
-export type ProductCategory =
-  | "Nightwear"
-  | "Casual Shirts"
-  | "Streetwear"
-  | "Sweatshirts"
-  | "Hoodies"
-  | "Joggers"
-  | "Formal Shirts";
+import {
+  ALL_CATALOGUE_SIZES,
+  catalogueCategorySources,
+  catalogueGroupSources,
+  type CatalogueCategoryId
+} from "@/backend/catalog/catalogue-data";
+
+export type ProductCategory = (typeof catalogueCategorySources)[number]["name"];
 
 export type Category = {
+  id: CatalogueCategoryId;
   slug: string;
   name: ProductCategory;
   summary: string;
-  imageSrc: string;
+  imageSrc?: string;
   imageLabel: string;
 };
 
@@ -21,9 +22,21 @@ export type ProductImage = {
   label: string;
 };
 
-export type ProductSeo = {
-  title?: string;
-  description?: string;
+export type ProductVariant = {
+  sku: string;
+  productName: string;
+  color: string;
+  sizes: string[];
+  fit: string;
+  fabric?: string;
+  gsm?: string;
+  description: string;
+  features: string[];
+  moq: number;
+  production: string;
+  images: ProductImage[];
+  sourceImageFolder: string;
+  sourceGroupReference: string;
 };
 
 export type Product = {
@@ -31,351 +44,140 @@ export type Product = {
   slug: string;
   name: string;
   category: ProductCategory;
+  categorySlug: string;
+  groupNumber: number;
+  groupReference: string;
+  defaultVariantSku: string;
   shortSpec: string;
-  description: string;
-  moq: string;
-  sizes: string[];
-  colors: string[];
-  fabric: string;
-  gsm?: string;
-  fit: string;
-  production: string;
-  customization: string[];
+  variants: ProductVariant[];
   images: ProductImage[];
-  imageVariants: Record<string, ProductImage[]>;
-  seo?: ProductSeo;
 };
 
-type ProductCatalogueEntry = Omit<Product, "imageVariants">;
+const imageFileNames = ["01.webp", "02.webp", "03.webp", "04.webp"];
 
-export const categories: Category[] = [
-  {
-    slug: "nightwear",
-    name: "Nightwear",
-    summary: "Premium pajama sets, sleepwear & loungewear",
-    imageSrc: "/images/categories/nightwear.png",
-    imageLabel: "IMAGE PLACEHOLDER - NIGHTWEAR"
-  },
-  {
-    slug: "casual-shirts",
-    name: "Casual Shirts",
-    summary: "Elevated everyday shirting for wholesale programs",
-    imageSrc: "/images/categories/casual-shirts.png",
-    imageLabel: "IMAGE PLACEHOLDER - CASUAL SHIRTS"
-  },
-  {
-    slug: "streetwear",
-    name: "Streetwear",
-    summary: "Sweatsuits, heavyweight tees and contemporary fits",
-    imageSrc: "/images/categories/streetwear.jpg",
-    imageLabel: "IMAGE PLACEHOLDER - STREETWEAR"
-  },
-  {
-    slug: "sweatshirts",
-    name: "Sweatshirts",
-    summary: "Hoodies, joggers and fleece essentials",
-    imageSrc: "/images/categories/sweatshirts.jpg",
-    imageLabel: "IMAGE PLACEHOLDER - SWEATSHIRTS"
-  },
-  {
-    slug: "formal-shirts",
-    name: "Formal Shirts",
-    summary: "Sharp wholesale shirting for uniform and retail buyers",
-    imageSrc: "/images/categories/formal-shirts.png",
-    imageLabel: "IMAGE PLACEHOLDER - FORMAL SHIRTS"
-  }
-];
-
-export const productCategories: ProductCategory[] = [
-  "Nightwear",
-  "Casual Shirts",
-  "Streetwear",
-  "Sweatshirts",
-  "Hoodies",
-  "Joggers",
-  "Formal Shirts"
-];
-
-const productCatalogue: ProductCatalogueEntry[] = [
-  {
-    id: "prod-001",
-    slug: "premium-heavyweight-oversized-sweatshirt",
-    name: "Premium Heavyweight Oversized Sweatshirt",
-    category: "Sweatshirts",
-    shortSpec: "400 GSM cotton fleece, oversized fit",
-    description:
-      "A premium heavyweight sweatshirt designed for wholesale collections, retail brands and private-label programs. Manufactured in India using carefully selected fabrics and production partners.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Grey", "Navy", "Cream"],
-    fabric: "100% Cotton",
-    gsm: "400",
-    fit: "Oversized",
-    production: "Made to Order",
-    customization: [
-      "Private label",
-      "Custom colors",
-      "Custom sizing",
-      "Custom branding",
-      "Custom packaging"
-    ],
-    images: [
-      {
-        src: "/images/products/premium-heavyweight-oversized-sweatshirt/main.png",
-        alt: "Premium heavyweight oversized sweatshirt",
-        label: "MAIN PRODUCT IMAGE"
-      },
-      {
-        alt: "Premium heavyweight oversized sweatshirt secondary view",
-        label: "SECONDARY IMAGE"
-      },
-      {
-        alt: "Premium heavyweight oversized sweatshirt detail",
-        label: "DETAIL IMAGE"
-      },
-      {
-        alt: "Premium heavyweight oversized sweatshirt lifestyle",
-        label: "LIFESTYLE IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-002",
-    slug: "essential-oversized-hoodie",
-    name: "Essential Oversized Hoodie",
-    category: "Hoodies",
-    shortSpec: "Fleece hoodie with premium rib and drawcord options",
-    description:
-      "A made-to-order hoodie built for brands, boutiques and wholesale buyers who need reliable quality at scale.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Navy", "Grey", "Cream"],
-    fabric: "Cotton Fleece",
-    gsm: "360",
-    fit: "Oversized",
-    production: "Made to Order",
-    customization: ["Private label", "Embroidery", "Printing", "Custom packaging"],
-    images: [
-      {
-        src: "/images/products/essential-oversized-hoodie/main.png",
-        alt: "Essential oversized hoodie",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-003",
-    slug: "premium-cotton-jogger",
-    name: "Premium Cotton Jogger",
-    category: "Joggers",
-    shortSpec: "Structured cotton fleece jogger with bulk color options",
-    description:
-      "A premium jogger designed for coordinated wholesale sets, private-label collections and retail programs.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Grey", "Olive", "Cream"],
-    fabric: "Cotton Fleece",
-    gsm: "340",
-    fit: "Relaxed",
-    production: "Made to Order",
-    customization: ["Custom colors", "Custom sizing", "Private label"],
-    images: [
-      {
-        src: "/images/products/premium-cotton-jogger/main.png",
-        alt: "Premium cotton jogger",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-004",
-    slug: "heavyweight-streetwear-t-shirt",
-    name: "Heavyweight Streetwear T-Shirt",
-    category: "Streetwear",
-    shortSpec: "Boxy cotton tee for premium streetwear collections",
-    description:
-      "A heavyweight T-shirt produced for brands and retailers building modern wholesale apparel assortments.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "White", "Washed Grey", "Cream"],
-    fabric: "100% Cotton Jersey",
-    gsm: "240",
-    fit: "Boxy",
-    production: "Made to Order",
-    customization: ["Screen printing", "Embroidery", "Neck labels", "Hang tags"],
-    images: [
-      {
-        src: "/images/products/heavyweight-streetwear-t-shirt/main.png",
-        alt: "Heavyweight streetwear T-shirt",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-005",
-    slug: "premium-casual-shirt",
-    name: "Premium Casual Shirt",
-    category: "Casual Shirts",
-    shortSpec: "Clean everyday shirting with custom fabric options",
-    description:
-      "A refined casual shirt option for wholesale buyers seeking reliable construction and versatile styling.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["White", "Sky", "Stone", "Black"],
-    fabric: "Cotton Poplin",
-    fit: "Regular",
-    production: "Made to Order",
-    customization: ["Custom fabrics", "Custom buttons", "Private label"],
-    images: [
-      {
-        src: "/images/products/premium-casual-shirt/main.png",
-        alt: "Premium casual shirt",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-006",
-    slug: "classic-formal-shirt",
-    name: "Classic Formal Shirt",
-    category: "Formal Shirts",
-    shortSpec: "Professional shirting for retail, corporate and uniform orders",
-    description:
-      "A classic formal shirt designed for volume programs where quality, sizing consistency and presentation matter.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["White", "Blue", "Charcoal", "Black"],
-    fabric: "Cotton Blend",
-    fit: "Tailored",
-    production: "Made to Order",
-    customization: ["Custom sizing", "Care labels", "Corporate branding"],
-    images: [
-      {
-        src: "/images/products/classic-formal-shirt/main.png",
-        alt: "Classic formal shirt",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-007",
-    slug: "premium-pajama-set",
-    name: "Premium Pajama Set",
-    category: "Nightwear",
-    shortSpec: "Soft coordinated set for sleepwear and lounge programs",
-    description:
-      "A premium pajama set for wholesale sleepwear collections, with fabric, color and packaging customization.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Ivory", "Navy", "Sage", "Charcoal"],
-    fabric: "Cotton Modal",
-    fit: "Relaxed",
-    production: "Made to Order",
-    customization: ["Custom prints", "Private labels", "Custom packaging"],
-    images: [
-      {
-        src: "/images/products/premium-pajama-set/main.png",
-        alt: "Premium pajama set",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-008",
-    slug: "luxury-lounge-set",
-    name: "Luxury Lounge Set",
-    category: "Nightwear",
-    shortSpec: "Elevated loungewear set for private-label collections",
-    description:
-      "A soft, premium lounge set made for wholesale buyers looking to build high-margin comfort collections.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Cream", "Taupe", "Black", "Heather Grey"],
-    fabric: "Cotton Blend Jersey",
-    fit: "Relaxed",
-    production: "Made to Order",
-    customization: ["Custom colors", "Embroidery", "Hang tags"],
-    images: [
-      {
-        src: "/images/products/luxury-lounge-set/main.png",
-        alt: "Luxury lounge set",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-009",
-    slug: "oversized-sweatpants",
-    name: "Oversized Sweatpants",
-    category: "Joggers",
-    shortSpec: "Heavyweight relaxed sweatpants for streetwear sets",
-    description:
-      "A relaxed sweatpant designed for premium streetwear and coordinated wholesale fleece programs.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Grey", "Navy", "Brown"],
-    fabric: "Cotton Fleece",
-    gsm: "380",
-    fit: "Oversized",
-    production: "Made to Order",
-    customization: ["Private label", "Custom wash", "Custom packaging"],
-    images: [
-      {
-        src: "/images/products/oversized-sweatpants/main.png",
-        alt: "Oversized sweatpants",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  },
-  {
-    id: "prod-010",
-    slug: "premium-crewneck-sweatshirt",
-    name: "Premium Crewneck Sweatshirt",
-    category: "Sweatshirts",
-    shortSpec: "Clean crewneck fleece for retail and uniform programs",
-    description:
-      "A versatile crewneck sweatshirt built for wholesale production, brand merchandising and custom apparel programs.",
-    moq: "500 pieces",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Grey", "Navy", "Cream"],
-    fabric: "Cotton Fleece",
-    gsm: "360",
-    fit: "Regular",
-    production: "Made to Order",
-    customization: ["Embroidery", "Printing", "Private labels"],
-    images: [
-      {
-        src: "/images/products/premium-crewneck-sweatshirt/main.png",
-        alt: "Premium crewneck sweatshirt",
-        label: "PRODUCT IMAGE"
-      }
-    ]
-  }
-];
-
-const gallerySlots = ["main", "secondary", "detail", "lifestyle"] as const;
-
-function toImageSlug(value: string): string {
-  return value.toLowerCase().replaceAll(" ", "-");
+function createVariantImages(
+  sku: string,
+  productName: string,
+  color: string
+): ProductImage[] {
+  return imageFileNames.map((fileName, index) => ({
+    src: `/images/products/${sku}/${fileName}`,
+    alt: `${productName} in ${color}, image ${index + 1}`,
+    label: `${sku} IMAGE ${index + 1}`
+  }));
 }
 
-function createImageVariants(product: ProductCatalogueEntry) {
-  return Object.fromEntries(
-    product.colors.map((color) => [
-      color,
-      gallerySlots.map((slot) => ({
-        src: `/images/products/${product.slug}/${toImageSlug(color)}/${slot}.png`,
-        alt: `${product.name} in ${color}, ${slot} view`,
-        label: `${color.toUpperCase()} ${slot.toUpperCase()} IMAGE`
-      }))
-    ])
-  );
-}
+const categoryNameById = new Map(
+  catalogueCategorySources.map((category) => [category.id, category.name])
+);
 
-export const products: Product[] = productCatalogue.map((product) => ({
-  ...product,
-  imageVariants: createImageVariants(product)
+export const categories: Category[] = catalogueCategorySources.map((category) => ({
+  ...category,
+  imageLabel: `${category.name.toUpperCase()} IMAGE`
 }));
+
+export const productCategories: ProductCategory[] = categories.map(
+  (category) => category.name
+);
+
+export const products: Product[] = catalogueGroupSources.map((group) => {
+  const category = categoryNameById.get(group.categoryId);
+
+  if (!category) {
+    throw new Error(`Unknown catalogue category: ${group.categoryId}`);
+  }
+
+  const variants: ProductVariant[] = group.variants.map((variant) => ({
+    sku: variant.sku,
+    productName: variant.productName,
+    color: variant.color,
+    sizes: [...ALL_CATALOGUE_SIZES],
+    fit: group.fit,
+    fabric:
+      variant.fabric === null ? undefined : (variant.fabric ?? group.fabric),
+    gsm: variant.gsm === null ? undefined : (variant.gsm ?? group.gsm),
+    description: group.description,
+    features: variant.features ?? group.features,
+    moq: group.moq,
+    production: group.production,
+    images: createVariantImages(variant.sku, variant.productName, variant.color),
+    sourceImageFolder: variant.sourceImageFolder,
+    sourceGroupReference: variant.sourceGroupReference
+  }));
+
+  return {
+    id: `group-${group.groupNumber}`,
+    slug: group.slug,
+    name: group.displayTitle,
+    category,
+    categorySlug: group.categoryId,
+    groupNumber: group.groupNumber,
+    groupReference: group.groupReference,
+    defaultVariantSku: variants[0].sku,
+    shortSpec: `${variants.length} ${variants.length === 1 ? "color option" : "color variants"}`,
+    variants,
+    images: variants[0].images
+  };
+});
+
+function validateCatalogue() {
+  const skus = products.flatMap((product) =>
+    product.variants.map((variant) => variant.sku)
+  );
+  const categoryIds = new Set(categories.map((category) => category.id));
+  const groupNumbers = new Set(products.map((product) => product.groupNumber));
+  const slugs = new Set(products.map((product) => product.slug));
+  const uniqueSkus = new Set(skus);
+  const errors: string[] = [];
+
+  if (categories.length !== 5) errors.push(`Expected 5 categories, found ${categories.length}.`);
+  if (products.length !== 17) errors.push(`Expected 17 product groups, found ${products.length}.`);
+  if (skus.length !== 60) errors.push(`Expected 60 SKUs, found ${skus.length}.`);
+  if (uniqueSkus.size !== skus.length) errors.push("Duplicate SKU identifiers found.");
+  if (groupNumbers.size !== products.length) errors.push("Duplicate product group numbers found.");
+  if (slugs.size !== products.length) errors.push("Duplicate product route slugs found.");
+
+  for (const product of products) {
+    if (!categoryIds.has(product.categorySlug as CatalogueCategoryId)) {
+      errors.push(`Group ${product.groupNumber} has an invalid category.`);
+    }
+
+    if (!product.variants.some((variant) => variant.sku === product.defaultVariantSku)) {
+      errors.push(`Group ${product.groupNumber} has an invalid default variant.`);
+    }
+
+    for (const variant of product.variants) {
+      if (!variant.sourceGroupReference || !variant.sourceImageFolder) {
+        errors.push(`${variant.sku} is missing source metadata.`);
+      }
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Catalogue validation failed:\n${errors.join("\n")}`);
+  }
+
+  return {
+    categories: categories.length,
+    groups: products.length,
+    skus: skus.length
+  };
+}
+
+export const catalogueValidation = validateCatalogue();
+
+export const legacyProductSlugs = new Set([
+  "premium-heavyweight-oversized-sweatshirt",
+  "essential-oversized-hoodie",
+  "premium-cotton-jogger",
+  "heavyweight-streetwear-t-shirt",
+  "premium-casual-shirt",
+  "classic-formal-shirt",
+  "premium-pajama-set",
+  "luxury-lounge-set",
+  "oversized-sweatpants",
+  "premium-crewneck-sweatshirt"
+]);
 
 export function getFeaturedProducts(): Product[] {
   return products.slice(0, 6);
@@ -390,7 +192,5 @@ export function getProductsByCategory(category?: string): Product[] {
     return products;
   }
 
-  return products.filter(
-    (product) => product.category.toLowerCase().replaceAll(" ", "-") === category
-  );
+  return products.filter((product) => product.categorySlug === category);
 }

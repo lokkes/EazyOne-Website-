@@ -16,7 +16,7 @@ const slides = [
 ] as const;
 
 const SLIDE_COUNT = slides.length + 1;
-const ROTATION_DELAY = 5_000;
+const ROTATION_DELAY = 8_000;
 
 export function HeroSlideshow() {
   const [activeSlide, setActiveSlide] = useState(0);

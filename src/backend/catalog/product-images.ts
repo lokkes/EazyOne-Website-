@@ -20,11 +20,9 @@ export function resolveProductImages(product: Product): Product {
   return {
     ...product,
     images: product.images.map(resolveProductImage),
-    imageVariants: Object.fromEntries(
-      Object.entries(product.imageVariants).map(([color, images]) => [
-        color,
-        images.map(resolveProductImage)
-      ])
-    )
+    variants: product.variants.map((variant) => ({
+      ...variant,
+      images: variant.images.map(resolveProductImage)
+    }))
   };
 }

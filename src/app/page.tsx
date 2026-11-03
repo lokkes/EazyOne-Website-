@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { resolveProductImages } from "@/backend/catalog/product-images";
 import { categories, getFeaturedProducts } from "@/backend/catalog/products";
 import { HomePage } from "@/frontend/pages/HomePage";
 import { createPageMetadata } from "@/shared/site";
@@ -11,7 +12,7 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 export default function Home() {
-  const featuredProducts = getFeaturedProducts();
+  const featuredProducts = getFeaturedProducts().map(resolveProductImages);
 
   return <HomePage categories={categories} featuredProducts={featuredProducts} />;
 }

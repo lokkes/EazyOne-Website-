@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getProductsByCategory, productCategories } from "@/backend/catalog/products";
+import { resolveProductImages } from "@/backend/catalog/product-images";
+import { categories, getProductsByCategory } from "@/backend/catalog/products";
 import { ProductCard } from "@/frontend/components/ProductCard";
 import { SectionHeader } from "@/frontend/components/SectionHeader";
 import { createPageMetadata } from "@/shared/site";
@@ -8,7 +9,7 @@ import { createPageMetadata } from "@/shared/site";
 export const metadata: Metadata = createPageMetadata({
   title: "Shop Wholesale",
   description:
-    "Shop made-to-order wholesale apparel categories including nightwear, shirts, streetwear, sweatshirts, hoodies, joggers and formal shirts.",
+    "Shop made-to-order flannel shirts, hooded flannels, overshirts, shorts, sleepwear and loungewear.",
   path: "/shop"
 });
 
@@ -19,7 +20,7 @@ type ShopPageProps = {
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams;
   const activeCategory = params?.category ?? "all";
-  const products = getProductsByCategory(activeCategory);
+  const products = getProductsByCategory(activeCategory).map(resolveProductImages);
 
   return (
     <main className="site-container py-12 md:py-20">
@@ -33,15 +34,15 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         <Link className={`shrink-0 border px-4 py-3 text-xs font-bold tracking-[0.14em] ${activeCategory === "all" ? "border-black bg-black text-white" : "fine-border"}`} href="/shop">
           ALL
         </Link>
-        {productCategories.map((category) => {
-          const slug = category.toLowerCase().replaceAll(" ", "-");
+        {categories.map((category) => {
+          const slug = category.slug;
           return (
             <Link
               className={`shrink-0 border px-4 py-3 text-xs font-bold tracking-[0.14em] ${activeCategory === slug ? "border-black bg-black text-white" : "fine-border"}`}
               href={`/shop?category=${slug}`}
-              key={category}
+              key={category.id}
             >
-              {category.toUpperCase()}
+              {category.name.toUpperCase()}
             </Link>
           );
         })}
